@@ -1,4 +1,4 @@
-from Cowmunity import Sets, Parameters, Variables, Equations, FixSBMLs, solve, extract_results, print_results
+from Cowmunity import Sets, Parameters, Variables, Equations, FixSBMLs, solve, extract_results, print_results, bug_huntin
 
 # variable_choice can be set to 'biomass_outer' or 'ATP_outer'
 
@@ -10,11 +10,12 @@ print(cow)
 print()
 print("Building the Cowmunity model...")
 
+FixSBMLs()
 Sets()
 Parameters()
 Variables(variable_choice)
 Equations()
-FixSBMLs()
 solve()
 extract_results()
 print_results()
+bug_huntin()
