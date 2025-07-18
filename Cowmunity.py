@@ -1,6 +1,8 @@
 import pandas as pd
 import libsbml
 from gamspy import Container, Set, Parameter, Variable, Equation, Model, Sum, Sense, Options, SpecialValues, SolveStatus
+from gamspy.math import abs
+import sys
 
 def Sets():
     print("Creating sets...")
@@ -256,28 +258,63 @@ def Variables(variable_choice):
     # should I set the O2 intake to zero?
     # how do I make sure that they are going to pull from a shared pool? Should these just upper bounds?
     # look to figure 1 in the islam paper for more information of where each metabolite goes
-    v_prm.up['EX_cpd00027_e0'] = 0.794397609 # uptake rate for D-glucose
-    v_rfl.up['EX_cpd00027_e0'] = 0.794397609
-    v_rfl.up['EX_cpd00076_e0'] = 0.834726132 # uptake rate for Sucrose
-    #v_mgk.up['EX_cpd00053_e0'] = 1.597816364 # uptake rate for L-glutamine
-    v_rfl.up['EX_cpd00107_e0'] = 1.148366562 # uptake rate for L-Leucine
-    v_prm.up['EX_cpd00224_e0'] = 0.666427627 # uptake rate for L-arabinose
-    v_rfl.up['EX_cpd00224_e0'] = 0.666427627
-    v_prm.up['EX_cpd00132_e0'] = 0.400330802 # uptake rate for L-Asparagine
-    v_rfl.up['EX_cpd00066_e0'] = 0.310015056 # uptake rate for L-Phenylalanine
-    v_rfl.up['EX_cpd00156_e0'] = 0.385856944 # uptake rate for L-Valine
-    v_rfl.up['EX_cpd00069_e0'] = 0.218417727 # uptake rate for L-Tyrosine
-    v_prm.up['EX_cpd00060_e0'] = 0.233929798 # uptake rate for L-Methionine
-    #v_mgk.up['EX_cpd00322_e0'] = 0.211165444 # uptake rate for L-Isoleucine
-    v_rfl.up['EX_cpd00322_e0'] = 0.211165444 
-    #v_mgk.up['EX_cpd00051_e0'] = 0.133660701 # uptake rate for L-Arginine
-    v_prm.up['EX_cpd00051_e0'] = 0.133660701
-    v_rfl.up['EX_cpd00051_e0'] = 0.133660701
-    #v_mgk.up['EX_cpd00039_e0'] = 0.098373937 # uptake rate for L-Lysine
-    v_prm.up['EX_cpd00039_e0'] = 0.098373937
-    v_rfl.up['EX_cpd00039_e0'] = 0.098373937
-    v_prm.up['EX_cpd11746_e0'] = 0.320930655 # uptake rate for Cellulose
-    v_rfl.up['EX_cpd11746_e0'] = 0.320930655
+    v_prm.lo['EX_cpd11657_e0'] = -0.965423023 # uptake rate for Starch
+    v_prm.lo['EX_cpd00076_e0'] = -0.834726132 # uptake rate for Sucrose
+    v_rfl.lo['EX_cpd00076_e0'] = -0.834726132 
+    v_prm.lo['EX_cpd00053_e0'] = -1.597816364 # uptake rate for L-Glutamine
+    v_rfl.lo['EX_cpd00053_e0'] = -1.597816364
+    # v_prm.lo['EX_cpd00027_e0'] = -0.794397609 # uptake rate for D-glucose *****
+    v_rfl.lo['EX_cpd00027_e0'] = -0.794397609
+    v_rfl.lo['EX_cpd00107_e0'] = -1.148366562 # uptake rate for L-Leucine
+    v_prm.lo['EX_cpd00107_e0'] = -1.148366562 
+    # v_prm.lo['EX_cpd00224_e0'] = -0.666427627 # uptake rate for L-arabinose *****
+    v_rfl.lo['EX_cpd00224_e0'] = -0.666427627
+    # v_prm.lo['EX_cpd00035_e0'] = -0.938846598 # uptake rate for L-Alanine ****
+    # v_rfl.lo['EX_cpd00035_e0'] = -0.938846598
+    v_prm.lo['EX_cpd00132_e0'] = -0.400330802 # uptake rate for L-Asparagine
+    v_rfl.lo['EX_cpd00066_e0'] = -0.310015056 # uptake rate for L-Phenylalanine
+    v_rfl.lo['EX_cpd00156_e0'] = -0.385856944 # uptake rate for L-Valine
+    v_rfl.lo['EX_cpd00069_e0'] = -0.218417727 # uptake rate for L-Tyrosine
+    v_prm.lo['EX_cpd00060_e0'] = -0.233929798 # uptake rate for L-Methionine
+    v_prm.lo['EX_cpd00161_e0'] = -0.261179221 # uptake rate for L-Threonine
+    v_rfl.lo['EX_cpd00161_e0'] = -0.261179221
+    v_rfl.lo['EX_cpd00322_e0'] = -0.211165444 # uptake rate for L-Isoleucine
+    v_prm.lo['EX_cpd00051_e0'] = -0.133660701 # uptake rate for L-Arginine
+    v_rfl.lo['EX_cpd00051_e0'] = -0.133660701
+    # v_prm.lo['EX_cpd00033_e0'] = -0.268595078 # uptake rate for Glycine ******
+    # v_rfl.lo['EX_cpd00033_e0'] = -0.268595078
+    v_prm.lo['EX_cpd00348_e0'] = -0.075513967 # uptake rate for D-Galactose 
+    v_rfl.lo['EX_cpd00348_e0'] = -0.075513967
+    v_rfl.lo['EX_cpd00119_e0'] = -0.124559013 # uptake rate for L-Histidine
+    v_prm.lo['EX_cpd00039_e0'] = -0.098373937 # uptake rate for L-Lysine
+    v_rfl.lo['EX_cpd00039_e0'] = -0.098373937
+    v_prm.lo['EX_cpd00084_e0'] = -0.114920408 # uptake rate for L-Cysteine
+    v_rfl.lo['EX_cpd00084_e0'] = -0.114920408
+    v_prm.lo['EX_cpd00053_e0'] = -0.080568485 # uptake rate for L-Glutamine
+    v_rfl.lo['EX_cpd00053_e0'] = -0.080568485
+    v_rfl.lo['EX_cpd00038_e0'] = -0.007734655 # uptake rate for GTP
+    v_rfl.lo['EX_cpd00138_e0'] = -0.021731242 # uptake rate for D-Mannose
+    v_prm.lo['EX_cpd00052_e0'] = -0.00730785 # uptake rate for CTP
+    v_rfl.lo['EX_cpd00052_e0'] = -0.00730785
+    v_prm.lo['EX_cpd00002_e0'] = -0.006289719 # uptake rate for ATP
+    v_rfl.lo['EX_cpd00002_e0'] = -0.006289719
+    v_prm.lo['EX_cpd00062_e0'] = -0.005932755 # uptake rate for UTP
+    v_rfl.lo['EX_cpd00062_e0'] = -0.005932755
+    v_rfl.lo['EX_cpd00115_e0'] = -0.001147315 # uptake rate for dATP
+    v_rfl.lo['EX_cpd00357_e0'] = -0.001147552 # uptake rate for dTTP
+    v_rfl.lo['EX_cpd00241_e0'] = -0.001012678 # uptake rate for dGTP
+    v_prm.lo['EX_cpd00356_e0'] = -0.001016235 # uptake rate for dCTP
+    v_rfl.lo['EX_cpd00356_e0'] = -0.001016235
+    # v_prm.lo['EX_cpd11746_e0'] = -0.320930655 # uptake rate for Cellulose ****
+    v_rfl.lo['EX_cpd11746_e0'] = -0.320930655
+    v_rfl.lo['EX_cpd29869_e0'] = -0.002499522 # uptake rate for hemicellulose
+    v_prm.lo['EX_cpd00009_e0'] = -0.005244478 # uptake rate for Phosphate
+    v_rfl.lo['EX_cpd00009_e0'] = -0.005244478
+    v_rfl.lo['EX_cpd00065_e0'] = 0 # uptake rate for Tryptophan
+    v_prm.lo['EX_cpd00073_e0'] = -0.629166662 # uptake rate for Urea
+    v_rfl.lo['EX_cpd00073_e0'] = -0.629166662
+    v_prm.lo['EX_cpd00048_e0'] = -0.004273279 # uptake rate for Sulfate
+    v_rfl.lo['EX_cpd00048_e0'] = -0.004273279
 
 
     # Dual variables for bounds
@@ -767,16 +804,70 @@ def FixSBMLs():
 
         libsbml.writeSBMLToFile(document, f'model files/{file_name}')
 
-    add_reaction('M. gottschalkii.xml', 'cpd00035', 'L-Alanine')
-    add_reaction('M. gottschalkii.xml', 'cpd00107', 'L-Leucine')
-    add_reaction('M. gottschalkii.xml', 'cpd00033', 'Glycine')
 
-    add_reaction('P. ruminicola.xml', 'cpd00035', 'L-Alanine')
-    add_reaction('P. ruminicola.xml', 'cpd00107', 'L-Leucine')
-    add_reaction('P. ruminicola.xml', 'cpd00033', 'Glycine')
+    def add_version(file_name, version):
+        # Define the SBML document and model
+        reader = libsbml.SBMLReader()
+        document = reader.readSBML(f'model files/{file_name}')
+        model = document.getModel()
 
-    add_reaction('R. flavefaciens.xml', 'cpd00035', 'L-Alanine')
-    add_reaction('R. flavefaciens.xml', 'cpd00033', 'Glycine')
+        # Set the version in the model's annotation
+        model.setNotes(version)
+
+        # Write the updated SBML document back to file
+        libsbml.writeSBMLToFile(document, f'model files/{file_name}')
+
+    def check_version(file_name, version):
+        # Define the SBML document and model
+        reader = libsbml.SBMLReader()
+        document = reader.readSBML(f'model files/{file_name}')
+        model = document.getModel()
+
+        # Check if the version matches
+        notes = model.getNotesString()
+        return notes == f'<notes>{version}</notes>'
+
+    version = 'v2.5'
+
+    if check_version('M. gottschalkii.xml', version) is False:
+        print('M. gottschalkii.xml is not up to date, updating...')
+        add_reaction('M. gottschalkii.xml', 'cpd00035', 'L-Alanine')
+        add_reaction('M. gottschalkii.xml', 'cpd00107', 'L-Leucine')
+        add_reaction('M. gottschalkii.xml', 'cpd00033', 'Glycine')
+        add_version('M. gottschalkii.xml', version)
+
+    if check_version('P. ruminicola.xml', version) is False:
+        print('P. ruminicola.xml is not up to date, updating...')
+        add_reaction('P. ruminicola.xml', 'cpd00035', 'L-Alanine')
+        add_reaction('P. ruminicola.xml', 'cpd00107', 'L-Leucine')
+        add_reaction('P. ruminicola.xml', 'cpd00033', 'Glycine')
+        add_reaction('P. ruminicola.xml', 'cpd11657', 'Starch')
+        add_reaction('P. ruminicola.xml', 'cpd00076', 'Sucrose')
+        add_reaction('P. ruminicola.xml', 'cpd00053', 'L-Glutamine')
+        add_reaction('P. ruminicola.xml', 'cpd00161', 'L-Threonine')
+        add_reaction('P. ruminicola.xml', 'cpd00348', 'D-Galactose 1-phosphate')
+        add_reaction('P. ruminicola.xml', 'cpd00084', 'L-Cysteine')
+        add_reaction('P. ruminicola.xml', 'cpd00052', 'CTP')
+        add_reaction('P. ruminicola.xml', 'cpd00002', 'ATP')
+        add_reaction('P. ruminicola.xml', 'cpd00062', 'UTP')
+        add_reaction('P. ruminicola.xml', 'cpd00356', 'dCTP')
+        add_reaction('P. ruminicola.xml', 'cpd00073', 'Urea')
+        add_version('P. ruminicola.xml', version)
+
+    if check_version('R. flavefaciens.xml', version) is False:
+        print('R. flavefaciens.xml is not up to date, updating...')
+        add_reaction('R. flavefaciens.xml', 'cpd00035', 'L-Alanine')
+        add_reaction('R. flavefaciens.xml', 'cpd00033', 'Glycine')
+        add_reaction('R. flavefaciens.xml', 'cpd00053', 'L-Glutamine')
+        add_reaction('R. flavefaciens.xml', 'cpd00161', 'L-Threonine')
+        add_reaction('R. flavefaciens.xml', 'cpd00348', 'D-Galactose 1-phosphate')
+        add_reaction('R. flavefaciens.xml', 'cpd00084', 'L-Cysteine')
+        add_reaction('R. flavefaciens.xml', 'cpd00052', 'CTP')
+        add_reaction('R. flavefaciens.xml', 'cpd00002', 'ATP')
+        add_reaction('R. flavefaciens.xml', 'cpd00062', 'UTP')
+        add_reaction('R. flavefaciens.xml', 'cpd00356', 'dCTP')
+        add_reaction('R. flavefaciens.xml', 'cpd00073', 'Urea')
+        add_version('R. flavefaciens.xml', version)
 
 
     def remove_duplicate_species_and_reactions(file_name):
@@ -845,12 +936,11 @@ def solve(solver_name='IPOPT'):
     global model
     # Create model
     model = Model(container=cowmunity, name="COWMUNITY", equations=cowmunity.getEquations(), 
-                    problem="LP", sense=Sense.MAX, objective=objective_variable)
+                    problem="NLP", sense=Sense.MAX, objective=objective_variable)
     
     # Set solver options
-    options = Options(lp=solver_name, equation_listing_limit=10, variable_listing_limit=10)
+    options = Options(nlp=solver_name, equation_listing_limit=10, variable_listing_limit=10, time_limit=5, threads=0)
 
-    
     # Solve the model
     print(f"Solving with {solver_name}...")
     model.solve(options=options)
@@ -875,6 +965,8 @@ def extract_results():
 
 def print_results():
     """Print results in a formatted way"""
+    print()
+    print("********************* RESULTS *********************")
     print(f"Total Biomass = {results['objective_value']}")
     print()
     
@@ -890,6 +982,175 @@ def print_results():
     print("********************* RFL *************************")
     print(f"RFL Biomass Flux = {results['rfl_biomass']}")
     print()
+
+def bug_huntin():
+    # This function is for debugging purposes, to check the model and variable records
+    reaction = 'EX_cpd00138_e0'
+
+    def check_reaction(reaction, file_name):
+        reader = libsbml.SBMLReader()
+        document = reader.readSBML(f'model files/{file_name}')
+        model = document.getModel()
+
+        reaction = model.getReaction(reaction)
+
+        if reaction is None:
+            return None
+        else:
+            return reaction.getId()
+
+    if check_reaction(reaction, 'M. gottschalkii.xml') is None:
+        print(f'Reaction {reaction} not found in M. gottschalkii model.')
+    else:
+        mgk_flux = v_mgk.records.loc[v_mgk.records['j_mgk'] == reaction, 'level'].iloc[0]
+        print(f'MGK {reaction}: {mgk_flux}')
+    if check_reaction(reaction, 'P. ruminicola.xml') is None:
+        print(f'Reaction {reaction} not found in P. ruminicola model.')
+    else:
+        prm_flux = v_prm.records.loc[v_prm.records['j_prm'] == reaction, 'level'].iloc[0]
+        print(f'PRM {reaction}: {prm_flux}')
+    if check_reaction(reaction, 'R. flavefaciens.xml') is None:
+        print(f'Reaction {reaction} not found in R. flavefaciens model.')
+    else:
+        rfl_flux = v_rfl.records.loc[v_rfl.records['j_rfl'] == reaction, 'level'].iloc[0]
+        print(f'RFL {reaction}: {rfl_flux}')
+
+    def flux_investigation(file_name, v_set, j_set, i_set, metabolite):
+
+        reader = libsbml.SBMLReader()
+        document = reader.readSBML(f'model files/{file_name}')
+        model = document.getModel()
+
+        relevant_reactions = []
+        for i in range(model.getNumReactions()):
+            reaction = model.getReaction(i)
+            product = reaction.getProduct(metabolite)
+            if product is None:
+                continue
+            else:
+                relevant_reactions.append(reaction.id)
+
+        # species = model.getSpecies(metabolite)
+        name = i_set.records.loc[i_set.records['index'] == metabolite, 'element_text'].iloc[0]
+        print(file_name)
+        print(f'\n*** {name} FLUXES ***')
+        for item in relevant_reactions:
+            flux = v_set.records.loc[v_set.records[j_set] == f'{item.strip()}', 'level'].iloc[0]
+            print(f'{item} : {flux}')
+    
+    print()
+
+    metabolite = 'M_cpd11640_c0'
+    mgk = ('M. gottschalkii.xml', v_mgk, 'j_mgk', i_mgk)
+    prm = ('P. ruminicola.xml', v_prm, 'j_prm', i_prm)
+    rfl = ('R. flavefaciens.xml', v_rfl, 'j_rfl', i_rfl)
+
+    flux_investigation(*mgk, metabolite)
+
+    def biomass_fluxes(file_name, v_set, j_set, i_set):
+        print('*'*10, file_name, '*'*10)
+
+        reader = libsbml.SBMLReader()
+        document = reader.readSBML(f'model files/{file_name}')
+        model = document.getModel()
+
+        biomass_reactants = []
+        biomass_reaction = model.getReaction('R_biomass0')
+        for i in range(biomass_reaction.getNumReactants()):
+            reactant = biomass_reaction.getReactant(i)
+            biomass_reactants.append(reactant.getSpecies())
+
+        precursor_reactions = {}
+        for item in biomass_reactants:
+            relevant_reactions = []
+            for i in range(model.getNumReactions()):
+                reaction = model.getReaction(i)
+                product = reaction.getProduct(f'{item}')
+                if product is None:
+                    continue
+                else:
+                    relevant_reactions.append(reaction.id)
+            new_entry = {item : relevant_reactions}
+            precursor_reactions.update(new_entry)
+
+        for key in precursor_reactions:
+            relevant_reactions = precursor_reactions[key]
+            species = biomass_reaction.getReactant(f'{key}').getSpecies()
+            name = i_set.records.loc[i_set.records['index'] == species, 'element_text'].iloc[0]
+            print(f'\n*** {name} FLUXES ***')
+            for item in relevant_reactions:
+                flux = v_set.records.loc[v_set.records[j_set] == f'{item.strip()}', 'level'].iloc[0]
+                print(f'{item} : {flux}')
+
+    # biomass_fluxes(*mgk)
+    # biomass_fluxes(*prm)
+    # biomass_fluxes(*rfl)
+
+    def zero_flux_reactions(file_name, v_set, j_set, i_set):
+        reader = libsbml.SBMLReader()
+        document = reader.readSBML(f'model files/{file_name}')
+        model = document.getModel()
+
+        """Return a list of reaction IDs in v_set where the flux is exactly zero."""
+        zero_flux_df = v_set.records.loc[v_set.records['level'] == 0]
+        zero_flux_list =  zero_flux_df[j_set].tolist()
+
+        print(f'\n*** {file_name} REACTIONS WITH ZERO FLUX ***')
+        for item in zero_flux_list:
+            precursor_reactions = {}
+            needy_dict = {}
+            unmade_products = []
+            zero_reaction = model.getReaction(item)
+            for i in range(zero_reaction.getNumProducts()):
+                product = zero_reaction.getProduct(i)
+                unmade_products.append(product.getSpecies())
+            print(f'\n{item}')
+            for item in unmade_products:
+                relevant_reactions = []
+                needy_reactions = []
+                for i in range(model.getNumReactions()):
+                    reaction = model.getReaction(i)
+                    product = reaction.getProduct(f'{item}')
+                    if product is None:
+                        continue
+                    else:
+                        relevant_reactions.append(reaction.id)
+                new_entry = {item : relevant_reactions}
+                precursor_reactions.update(new_entry)
+
+                for i in range(model.getNumReactions()):
+                    reaction = model.getReaction(i)
+                    reactant = reaction.getReactant(f'{item}')
+                    if reactant is None:
+                        continue
+                    else:
+                        needy_reactions.append(reaction.id)
+                new_entry = {item : relevant_reactions}
+                precursor_reactions.update(new_entry)
+                new_entry = {item : needy_reactions}
+                needy_dict.update(new_entry)
+
+            for key in precursor_reactions:
+                relevant_reactions = precursor_reactions[key]
+                product = zero_reaction.getProduct(f'{key}')
+                species = product.getSpecies()
+                name = i_set.records.loc[i_set.records['index'] == species, 'element_text'].iloc[0]
+                print(f'Reactions that produce {name} ({species}):')
+                for item in relevant_reactions:
+                    flux = v_set.records.loc[v_set.records[j_set] == f'{item.strip()}', 'level'].iloc[0]
+                    print(f'{item} : {flux}')
+                print(f'Reactions that require {name} ({species}):')
+                for item in needy_reactions:
+                    flux = v_set.records.loc[v_set.records[j_set] == f'{item.strip()}', 'level'].iloc[0]
+                    print(f'{item} : {flux}')
+
+        
+
+    zero_flux_reactions(*mgk)
+    zero_flux_reactions(*prm)
+    zero_flux_reactions(*rfl)
+    
+    
 
 
 
