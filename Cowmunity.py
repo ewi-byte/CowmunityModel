@@ -253,68 +253,122 @@ def Variables(variable_choice):
     v_rfl.lo[j_rfl] = lb_rfl[j_rfl]
     v_rfl.up[j_rfl] = ub_rfl[j_rfl]
 
-    # medium composition, is there anything else in the medium that i should include
-    # fixing some of the flux variables to known values, these are the uptakes rates from supplemental data #8
-    # should I set the O2 intake to zero?
-    # how do I make sure that they are going to pull from a shared pool? Should these just upper bounds?
-    # look to figure 1 in the islam paper for more information of where each metabolite goes
-    v_prm.lo['EX_cpd11657_e0'] = -0.965423023 # uptake rate for Starch
-    v_prm.lo['EX_cpd00076_e0'] = -0.834726132 # uptake rate for Sucrose
-    v_rfl.lo['EX_cpd00076_e0'] = -0.834726132 
-    v_prm.lo['EX_cpd00053_e0'] = -1.597816364 # uptake rate for L-Glutamine
-    v_rfl.lo['EX_cpd00053_e0'] = -1.597816364
-    # v_prm.lo['EX_cpd00027_e0'] = -0.794397609 # uptake rate for D-glucose *****
-    v_rfl.lo['EX_cpd00027_e0'] = -0.794397609
-    v_rfl.lo['EX_cpd00107_e0'] = -1.148366562 # uptake rate for L-Leucine
-    v_prm.lo['EX_cpd00107_e0'] = -1.148366562 
-    # v_prm.lo['EX_cpd00224_e0'] = -0.666427627 # uptake rate for L-arabinose *****
-    v_rfl.lo['EX_cpd00224_e0'] = -0.666427627
-    # v_prm.lo['EX_cpd00035_e0'] = -0.938846598 # uptake rate for L-Alanine ****
-    # v_rfl.lo['EX_cpd00035_e0'] = -0.938846598
-    v_prm.lo['EX_cpd00132_e0'] = -0.400330802 # uptake rate for L-Asparagine
-    v_rfl.lo['EX_cpd00066_e0'] = -0.310015056 # uptake rate for L-Phenylalanine
-    v_rfl.lo['EX_cpd00156_e0'] = -0.385856944 # uptake rate for L-Valine
-    v_rfl.lo['EX_cpd00069_e0'] = -0.218417727 # uptake rate for L-Tyrosine
-    v_prm.lo['EX_cpd00060_e0'] = -0.233929798 # uptake rate for L-Methionine
-    v_prm.lo['EX_cpd00161_e0'] = -0.261179221 # uptake rate for L-Threonine
-    v_rfl.lo['EX_cpd00161_e0'] = -0.261179221
-    v_rfl.lo['EX_cpd00322_e0'] = -0.211165444 # uptake rate for L-Isoleucine
-    v_prm.lo['EX_cpd00051_e0'] = -0.133660701 # uptake rate for L-Arginine
-    v_rfl.lo['EX_cpd00051_e0'] = -0.133660701
-    # v_prm.lo['EX_cpd00033_e0'] = -0.268595078 # uptake rate for Glycine ******
-    # v_rfl.lo['EX_cpd00033_e0'] = -0.268595078
-    v_prm.lo['EX_cpd00348_e0'] = -0.075513967 # uptake rate for D-Galactose 
-    v_rfl.lo['EX_cpd00348_e0'] = -0.075513967
-    v_rfl.lo['EX_cpd00119_e0'] = -0.124559013 # uptake rate for L-Histidine
-    v_prm.lo['EX_cpd00039_e0'] = -0.098373937 # uptake rate for L-Lysine
-    v_rfl.lo['EX_cpd00039_e0'] = -0.098373937
-    v_prm.lo['EX_cpd00084_e0'] = -0.114920408 # uptake rate for L-Cysteine
-    v_rfl.lo['EX_cpd00084_e0'] = -0.114920408
-    v_prm.lo['EX_cpd00053_e0'] = -0.080568485 # uptake rate for L-Glutamine
-    v_rfl.lo['EX_cpd00053_e0'] = -0.080568485
-    v_rfl.lo['EX_cpd00038_e0'] = -0.007734655 # uptake rate for GTP
-    v_rfl.lo['EX_cpd00138_e0'] = -0.021731242 # uptake rate for D-Mannose
-    v_prm.lo['EX_cpd00052_e0'] = -0.00730785 # uptake rate for CTP
-    v_rfl.lo['EX_cpd00052_e0'] = -0.00730785
-    v_prm.lo['EX_cpd00002_e0'] = -0.006289719 # uptake rate for ATP
-    v_rfl.lo['EX_cpd00002_e0'] = -0.006289719
-    v_prm.lo['EX_cpd00062_e0'] = -0.005932755 # uptake rate for UTP
-    v_rfl.lo['EX_cpd00062_e0'] = -0.005932755
-    v_rfl.lo['EX_cpd00115_e0'] = -0.001147315 # uptake rate for dATP
-    v_rfl.lo['EX_cpd00357_e0'] = -0.001147552 # uptake rate for dTTP
-    v_rfl.lo['EX_cpd00241_e0'] = -0.001012678 # uptake rate for dGTP
-    v_prm.lo['EX_cpd00356_e0'] = -0.001016235 # uptake rate for dCTP
-    v_rfl.lo['EX_cpd00356_e0'] = -0.001016235
-    # v_prm.lo['EX_cpd11746_e0'] = -0.320930655 # uptake rate for Cellulose ****
-    v_rfl.lo['EX_cpd11746_e0'] = -0.320930655
-    v_rfl.lo['EX_cpd29869_e0'] = -0.002499522 # uptake rate for hemicellulose
-    v_prm.lo['EX_cpd00009_e0'] = -0.005244478 # uptake rate for Phosphate
-    v_rfl.lo['EX_cpd00009_e0'] = -0.005244478
+    # ****** indicates the metabolite is transferred between species, so I will not set a flux for the species that does not take it up
+    # commented lines are those determined to have a greater capacity due to the potential for transfer between species
+
+    # v_prm.lo['EX_cpd11657_e0'] = -0.965423023 * 4.55 # uptake rate for Starch, fed to the model as two glucose units
+    v_prm.lo['EX_cpd00076_e0'] = -0.834726132 * 4.55 # uptake rate for Sucrose
+    v_rfl.lo['EX_cpd00076_e0'] = -0.834726132 * 4.55 
+    v_prm.lo['EX_cpd00053_e0'] = -1.597816364 * 4.55 # uptake rate for L-Glutamine
+    v_rfl.lo['EX_cpd00053_e0'] = -1.597816364 * 4.55
+    # v_prm.lo['EX_cpd00027_e0'] = -0.794397609 * 4.55 # uptake rate for D-glucose *****
+    v_rfl.lo['EX_cpd00027_e0'] = (-0.794397609 + (-0.965423023 * 2)) * 4.55 # adjusted for the uptake of Starch
+    v_rfl.lo['EX_cpd00107_e0'] = -1.148366562 * 4.55 # uptake rate for L-Leucine
+    v_prm.lo['EX_cpd00107_e0'] = -1.148366562 * 4.55 
+    # v_prm.lo['EX_cpd00224_e0'] = -0.666427627 * 4.55 # uptake rate for L-arabinose *****
+    v_rfl.lo['EX_cpd00224_e0'] = -0.666427627 * 4.55
+    # v_prm.lo['EX_cpd00035_e0'] = -0.938846598 * 4.55 # uptake rate for L-Alanine ****
+    # v_rfl.lo['EX_cpd00035_e0'] = -0.938846598 * 4.55
+    v_prm.lo['EX_cpd00132_e0'] = -0.400330802 * 4.55 # uptake rate for L-Asparagine
+    v_rfl.lo['EX_cpd00066_e0'] = -0.310015056 * 4.55 # uptake rate for L-Phenylalanine
+    v_rfl.lo['EX_cpd00156_e0'] = -0.385856944 * 4.55 # uptake rate for L-Valine
+    v_rfl.lo['EX_cpd00069_e0'] = -0.218417727 * 4.55 # uptake rate for L-Tyrosine
+    v_prm.lo['EX_cpd00060_e0'] = -0.233929798 * 4.55 # uptake rate for L-Methionine
+    v_prm.lo['EX_cpd00161_e0'] = -0.261179221 * 4.55 # uptake rate for L-Threonine
+    v_rfl.lo['EX_cpd00161_e0'] = -0.261179221 * 4.55
+    v_rfl.lo['EX_cpd00322_e0'] = -0.211165444 * 4.55 # uptake rate for L-Isoleucine
+    v_prm.lo['EX_cpd00051_e0'] = -0.133660701 * 4.55 # uptake rate for L-Arginine
+    v_rfl.lo['EX_cpd00051_e0'] = -0.133660701 * 4.55
+    # v_prm.lo['EX_cpd00033_e0'] = -0.268595078 * 4.55 # uptake rate for Glycine ******
+    # v_rfl.lo['EX_cpd00033_e0'] = -0.268595078 * 4.55
+    v_prm.lo['EX_cpd00348_e0'] = -0.075513967 * 4.55 # uptake rate for D-Galactose 
+    v_rfl.lo['EX_cpd00348_e0'] = -0.075513967 * 4.55
+    v_rfl.lo['EX_cpd00119_e0'] = -0.124559013 * 4.55 # uptake rate for L-Histidine
+    v_prm.lo['EX_cpd00039_e0'] = -0.098373937 * 4.55 # uptake rate for L-Lysine
+    v_rfl.lo['EX_cpd00039_e0'] = -0.098373937 * 4.55
+    v_prm.lo['EX_cpd00084_e0'] = -0.114920408 * 4.55 # uptake rate for L-Cysteine
+    v_rfl.lo['EX_cpd00084_e0'] = -0.114920408 * 4.55
+    v_prm.lo['EX_cpd00053_e0'] = -0.080568485 * 4.55 # uptake rate for L-Glutamine
+    v_rfl.lo['EX_cpd00053_e0'] = -0.080568485 * 4.55
+    v_rfl.lo['EX_cpd00038_e0'] = -0.007734655 * 4.55 # uptake rate for GTP
+    v_rfl.lo['EX_cpd00138_e0'] = -0.021731242 * 4.55 # uptake rate for D-Mannose
+    v_prm.lo['EX_cpd00052_e0'] = -0.00730785 * 4.55 # uptake rate for CTP
+    v_rfl.lo['EX_cpd00052_e0'] = -0.00730785 * 4.55
+    v_prm.lo['EX_cpd00002_e0'] = -0.006289719 * 4.55 # uptake rate for ATP
+    v_rfl.lo['EX_cpd00002_e0'] = -0.006289719 * 4.55
+    v_prm.lo['EX_cpd00062_e0'] = -0.005932755 * 4.55 # uptake rate for UTP
+    v_rfl.lo['EX_cpd00062_e0'] = -0.005932755 * 4.55
+    v_rfl.lo['EX_cpd00115_e0'] = -0.001147315 * 4.55 # uptake rate for dATP
+    v_rfl.lo['EX_cpd00357_e0'] = -0.001147552 * 4.55 # uptake rate for dTTP
+    v_rfl.lo['EX_cpd00241_e0'] = -0.001012678 * 4.55 # uptake rate for dGTP
+    v_prm.lo['EX_cpd00356_e0'] = -0.001016235 * 4.55 # uptake rate for dCTP
+    v_rfl.lo['EX_cpd00356_e0'] = -0.001016235 * 4.55
+    # v_prm.lo['EX_cpd11746_e0'] = -0.320930655 * 4.55 # uptake rate for Cellulose ****
+    v_rfl.lo['EX_cpd11746_e0'] = -0.320930655 * 4.55
+    v_rfl.lo['EX_cpd29869_e0'] = -0.002499522 * 4.55 # uptake rate for hemicellulose
+    v_prm.lo['EX_cpd00009_e0'] = -0.005244478 * 4.55 # uptake rate for Phosphate
+    v_rfl.lo['EX_cpd00009_e0'] = -0.005244478 * 4.55
     v_rfl.lo['EX_cpd00065_e0'] = 0 # uptake rate for Tryptophan
-    v_prm.lo['EX_cpd00073_e0'] = -0.629166662 # uptake rate for Urea
-    v_rfl.lo['EX_cpd00073_e0'] = -0.629166662
-    v_prm.lo['EX_cpd00048_e0'] = -0.004273279 # uptake rate for Sulfate
-    v_rfl.lo['EX_cpd00048_e0'] = -0.004273279
+    v_prm.lo['EX_cpd00073_e0'] = -0.629166662 * 4.55 # uptake rate for Urea
+    v_rfl.lo['EX_cpd00073_e0'] = -0.629166662 * 4.55
+    v_prm.lo['EX_cpd00048_e0'] = -0.004273279 * 4.55 # uptake rate for Sulfate
+    v_rfl.lo['EX_cpd00048_e0'] = -0.004273279 * 4.55
+    # v_prm.lo['EX_cpd00076_e0'] = -0.834726132 # uptake rate for Sucrose
+    # v_rfl.lo['EX_cpd00076_e0'] = -0.834726132 
+    # v_prm.lo['EX_cpd00053_e0'] = -1.597816364 # uptake rate for L-Glutamine
+    # v_rfl.lo['EX_cpd00053_e0'] = -1.597816364
+    # # v_prm.lo['EX_cpd00027_e0'] = -0.794397609 # uptake rate for D-glucose *****
+    # v_rfl.lo['EX_cpd00027_e0'] = -0.794397609 + (-0.965423023 * 2) # adjusted for the uptake of Starch
+    # v_rfl.lo['EX_cpd00107_e0'] = -1.148366562 # uptake rate for L-Leucine
+    # v_prm.lo['EX_cpd00107_e0'] = -1.148366562 
+    # # v_prm.lo['EX_cpd00224_e0'] = -0.666427627 # uptake rate for L-arabinose *****
+    # v_rfl.lo['EX_cpd00224_e0'] = -0.666427627
+    # # v_prm.lo['EX_cpd00035_e0'] = -0.938846598 # uptake rate for L-Alanine ****
+    # # v_rfl.lo['EX_cpd00035_e0'] = -0.938846598
+    # v_prm.lo['EX_cpd00132_e0'] = -0.400330802 # uptake rate for L-Asparagine
+    # v_rfl.lo['EX_cpd00066_e0'] = -0.310015056 # uptake rate for L-Phenylalanine
+    # v_rfl.lo['EX_cpd00156_e0'] = -0.385856944 # uptake rate for L-Valine
+    # v_rfl.lo['EX_cpd00069_e0'] = -0.218417727 # uptake rate for L-Tyrosine
+    # v_prm.lo['EX_cpd00060_e0'] = -0.233929798 # uptake rate for L-Methionine
+    # v_prm.lo['EX_cpd00161_e0'] = -0.261179221 # uptake rate for L-Threonine
+    # v_rfl.lo['EX_cpd00161_e0'] = -0.261179221
+    # v_rfl.lo['EX_cpd00322_e0'] = -0.211165444 # uptake rate for L-Isoleucine
+    # v_prm.lo['EX_cpd00051_e0'] = -0.133660701 # uptake rate for L-Arginine
+    # v_rfl.lo['EX_cpd00051_e0'] = -0.133660701
+    # # v_prm.lo['EX_cpd00033_e0'] = -0.268595078 # uptake rate for Glycine ******
+    # # v_rfl.lo['EX_cpd00033_e0'] = -0.268595078
+    # v_prm.lo['EX_cpd00348_e0'] = -0.075513967 # uptake rate for D-Galactose 
+    # v_rfl.lo['EX_cpd00348_e0'] = -0.075513967
+    # v_rfl.lo['EX_cpd00119_e0'] = -0.124559013 # uptake rate for L-Histidine
+    # v_prm.lo['EX_cpd00039_e0'] = -0.098373937 # uptake rate for L-Lysine
+    # v_rfl.lo['EX_cpd00039_e0'] = -0.098373937
+    # v_prm.lo['EX_cpd00084_e0'] = -0.114920408 # uptake rate for L-Cysteine
+    # v_rfl.lo['EX_cpd00084_e0'] = -0.114920408
+    # v_prm.lo['EX_cpd00053_e0'] = -0.080568485 # uptake rate for L-Glutamine
+    # v_rfl.lo['EX_cpd00053_e0'] = -0.080568485
+    # v_rfl.lo['EX_cpd00038_e0'] = -0.007734655 # uptake rate for GTP
+    # v_rfl.lo['EX_cpd00138_e0'] = -0.021731242 # uptake rate for D-Mannose
+    # v_prm.lo['EX_cpd00052_e0'] = -0.00730785 # uptake rate for CTP
+    # v_rfl.lo['EX_cpd00052_e0'] = -0.00730785
+    # v_prm.lo['EX_cpd00002_e0'] = -0.006289719 # uptake rate for ATP
+    # v_rfl.lo['EX_cpd00002_e0'] = -0.006289719
+    # v_prm.lo['EX_cpd00062_e0'] = -0.005932755 # uptake rate for UTP
+    # v_rfl.lo['EX_cpd00062_e0'] = -0.005932755
+    # v_rfl.lo['EX_cpd00115_e0'] = -0.001147315 # uptake rate for dATP
+    # v_rfl.lo['EX_cpd00357_e0'] = -0.001147552 # uptake rate for dTTP
+    # v_rfl.lo['EX_cpd00241_e0'] = -0.001012678 # uptake rate for dGTP
+    # v_prm.lo['EX_cpd00356_e0'] = -0.001016235 # uptake rate for dCTP
+    # v_rfl.lo['EX_cpd00356_e0'] = -0.001016235
+    # # v_prm.lo['EX_cpd11746_e0'] = -0.320930655 # uptake rate for Cellulose ****
+    # v_rfl.lo['EX_cpd11746_e0'] = -0.320930655
+    # v_rfl.lo['EX_cpd29869_e0'] = -0.002499522 # uptake rate for hemicellulose
+    # v_prm.lo['EX_cpd00009_e0'] = -0.005244478 # uptake rate for Phosphate
+    # v_rfl.lo['EX_cpd00009_e0'] = -0.005244478
+    # v_rfl.lo['EX_cpd00065_e0'] = 0 # uptake rate for Tryptophan
+    # v_prm.lo['EX_cpd00073_e0'] = -0.629166662 # uptake rate for Urea
+    # v_rfl.lo['EX_cpd00073_e0'] = -0.629166662
+    # v_prm.lo['EX_cpd00048_e0'] = -0.004273279 # uptake rate for Sulfate
+    # v_rfl.lo['EX_cpd00048_e0'] = -0.004273279
 
 
     # Dual variables for bounds
@@ -985,35 +1039,37 @@ def print_results():
 
 def bug_huntin():
     # This function is for debugging purposes, to check the model and variable records
-    reaction = 'EX_cpd00138_e0'
 
-    def check_reaction(reaction, file_name):
-        reader = libsbml.SBMLReader()
-        document = reader.readSBML(f'model files/{file_name}')
-        model = document.getModel()
+    def print_reaction(reaction):
+        def check_reaction(reaction, file_name):
+            reader = libsbml.SBMLReader()
+            document = reader.readSBML(f'model files/{file_name}')
+            model = document.getModel()
 
-        reaction = model.getReaction(reaction)
+            reaction = model.getReaction(reaction)
 
-        if reaction is None:
-            return None
+            if reaction is None:
+                return None
+            else:
+                return reaction.getId()
+
+        if check_reaction(reaction, 'M. gottschalkii.xml') is None:
+            print(f'Reaction {reaction} not found in M. gottschalkii model.')
         else:
-            return reaction.getId()
+            mgk_flux = v_mgk.records.loc[v_mgk.records['j_mgk'] == reaction, 'level'].iloc[0]
+            print(f'MGK {reaction}: {mgk_flux}')
+        if check_reaction(reaction, 'P. ruminicola.xml') is None:
+            print(f'Reaction {reaction} not found in P. ruminicola model.')
+        else:
+            prm_flux = v_prm.records.loc[v_prm.records['j_prm'] == reaction, 'level'].iloc[0]
+            print(f'PRM {reaction}: {prm_flux}')
+        if check_reaction(reaction, 'R. flavefaciens.xml') is None:
+            print(f'Reaction {reaction} not found in R. flavefaciens model.')
+        else:
+            rfl_flux = v_rfl.records.loc[v_rfl.records['j_rfl'] == reaction, 'level'].iloc[0]
+            print(f'RFL {reaction}: {rfl_flux}')
 
-    if check_reaction(reaction, 'M. gottschalkii.xml') is None:
-        print(f'Reaction {reaction} not found in M. gottschalkii model.')
-    else:
-        mgk_flux = v_mgk.records.loc[v_mgk.records['j_mgk'] == reaction, 'level'].iloc[0]
-        print(f'MGK {reaction}: {mgk_flux}')
-    if check_reaction(reaction, 'P. ruminicola.xml') is None:
-        print(f'Reaction {reaction} not found in P. ruminicola model.')
-    else:
-        prm_flux = v_prm.records.loc[v_prm.records['j_prm'] == reaction, 'level'].iloc[0]
-        print(f'PRM {reaction}: {prm_flux}')
-    if check_reaction(reaction, 'R. flavefaciens.xml') is None:
-        print(f'Reaction {reaction} not found in R. flavefaciens model.')
-    else:
-        rfl_flux = v_rfl.records.loc[v_rfl.records['j_rfl'] == reaction, 'level'].iloc[0]
-        print(f'RFL {reaction}: {rfl_flux}')
+    # print_reaction('EX_cpd00138_e0')
 
     def flux_investigation(file_name, v_set, j_set, i_set, metabolite):
 
@@ -1040,14 +1096,16 @@ def bug_huntin():
     
     print()
 
-    metabolite = 'M_cpd11640_c0'
+    metabolite = 'M_cpd00033_c0'
     mgk = ('M. gottschalkii.xml', v_mgk, 'j_mgk', i_mgk)
     prm = ('P. ruminicola.xml', v_prm, 'j_prm', i_prm)
     rfl = ('R. flavefaciens.xml', v_rfl, 'j_rfl', i_rfl)
 
-    flux_investigation(*mgk, metabolite)
+    # flux_investigation(*mgk, metabolite)
 
     def biomass_fluxes(file_name, v_set, j_set, i_set):
+        list_to_investigate = []
+        print()
         print('*'*10, file_name, '*'*10)
 
         reader = libsbml.SBMLReader()
@@ -1074,13 +1132,22 @@ def bug_huntin():
             precursor_reactions.update(new_entry)
 
         for key in precursor_reactions:
+            flux_set = []
             relevant_reactions = precursor_reactions[key]
             species = biomass_reaction.getReactant(f'{key}').getSpecies()
             name = i_set.records.loc[i_set.records['index'] == species, 'element_text'].iloc[0]
-            print(f'\n*** {name} FLUXES ***')
+            print(f'\n{name} FLUXES')
             for item in relevant_reactions:
                 flux = v_set.records.loc[v_set.records[j_set] == f'{item.strip()}', 'level'].iloc[0]
                 print(f'{item} : {flux}')
+                flux_set.append(flux)
+            print(f'Total flux for {name} = {sum(flux_set)}')
+            if sum(flux_set) <= 1e-5:
+                list_to_investigate.append(name)
+        
+        print(f'\nBiomass precursors with zero or negative production:')
+        for item in list_to_investigate:
+            print(item)
 
     # biomass_fluxes(*mgk)
     # biomass_fluxes(*prm)
@@ -1146,9 +1213,9 @@ def bug_huntin():
 
         
 
-    zero_flux_reactions(*mgk)
-    zero_flux_reactions(*prm)
-    zero_flux_reactions(*rfl)
+    # zero_flux_reactions(*mgk)
+    # zero_flux_reactions(*prm)
+    # zero_flux_reactions(*rfl)
     
     
 
