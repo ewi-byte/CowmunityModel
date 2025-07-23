@@ -255,6 +255,7 @@ def Variables(variable_choice):
 
     # ****** indicates the metabolite is transferred between species, so I will not set a flux for the species that does not take it up
     # commented lines are those determined to have a greater capacity due to the potential for transfer between species
+    # the 4.55 indicates a conversion factor for dry whole weight to dry cell weight, as the model is based on dry cell weight
 
     # v_prm.lo['EX_cpd11657_e0'] = -0.965423023 * 4.55 # uptake rate for Starch, fed to the model as two glucose units
     v_prm.lo['EX_cpd00076_e0'] = -0.834726132 * 4.55 # uptake rate for Sucrose
@@ -292,8 +293,8 @@ def Variables(variable_choice):
     v_rfl.lo['EX_cpd00053_e0'] = -0.080568485 * 4.55
     v_rfl.lo['EX_cpd00038_e0'] = -0.007734655 * 4.55 # uptake rate for GTP
     v_rfl.lo['EX_cpd00138_e0'] = -0.021731242 * 4.55 # uptake rate for D-Mannose
-    v_prm.lo['EX_cpd00052_e0'] = -0.00730785 * 4.55 # uptake rate for CTP
-    v_rfl.lo['EX_cpd00052_e0'] = -0.00730785 * 4.55
+    v_prm.lo['EX_cpd00052_e0'] = -0.007307850 * 4.55 # uptake rate for CTP
+    v_rfl.lo['EX_cpd00052_e0'] = -0.007307850 * 4.55
     v_prm.lo['EX_cpd00002_e0'] = -0.006289719 * 4.55 # uptake rate for ATP
     v_rfl.lo['EX_cpd00002_e0'] = -0.006289719 * 4.55
     v_prm.lo['EX_cpd00062_e0'] = -0.005932755 * 4.55 # uptake rate for UTP
@@ -306,69 +307,18 @@ def Variables(variable_choice):
     # v_prm.lo['EX_cpd11746_e0'] = -0.320930655 * 4.55 # uptake rate for Cellulose ****
     v_rfl.lo['EX_cpd11746_e0'] = -0.320930655 * 4.55
     v_rfl.lo['EX_cpd29869_e0'] = -0.002499522 * 4.55 # uptake rate for hemicellulose
-    v_prm.lo['EX_cpd00009_e0'] = -0.005244478 * 4.55 # uptake rate for Phosphate
-    v_rfl.lo['EX_cpd00009_e0'] = -0.005244478 * 4.55
+    # v_prm.lo['EX_cpd00009_e0'] = -0.005244478 * 4.55 # uptake rate for Phosphate, this is an inorganic ion, uptake set to max
+    # v_rfl.lo['EX_cpd00009_e0'] = -0.005244478 * 4.55
     v_rfl.lo['EX_cpd00065_e0'] = 0 # uptake rate for Tryptophan
     v_prm.lo['EX_cpd00073_e0'] = -0.629166662 * 4.55 # uptake rate for Urea
     v_rfl.lo['EX_cpd00073_e0'] = -0.629166662 * 4.55
-    v_prm.lo['EX_cpd00048_e0'] = -0.004273279 * 4.55 # uptake rate for Sulfate
-    v_rfl.lo['EX_cpd00048_e0'] = -0.004273279 * 4.55
-    # v_prm.lo['EX_cpd00076_e0'] = -0.834726132 # uptake rate for Sucrose
-    # v_rfl.lo['EX_cpd00076_e0'] = -0.834726132 
-    # v_prm.lo['EX_cpd00053_e0'] = -1.597816364 # uptake rate for L-Glutamine
-    # v_rfl.lo['EX_cpd00053_e0'] = -1.597816364
-    # # v_prm.lo['EX_cpd00027_e0'] = -0.794397609 # uptake rate for D-glucose *****
-    # v_rfl.lo['EX_cpd00027_e0'] = -0.794397609 + (-0.965423023 * 2) # adjusted for the uptake of Starch
-    # v_rfl.lo['EX_cpd00107_e0'] = -1.148366562 # uptake rate for L-Leucine
-    # v_prm.lo['EX_cpd00107_e0'] = -1.148366562 
-    # # v_prm.lo['EX_cpd00224_e0'] = -0.666427627 # uptake rate for L-arabinose *****
-    # v_rfl.lo['EX_cpd00224_e0'] = -0.666427627
-    # # v_prm.lo['EX_cpd00035_e0'] = -0.938846598 # uptake rate for L-Alanine ****
-    # # v_rfl.lo['EX_cpd00035_e0'] = -0.938846598
-    # v_prm.lo['EX_cpd00132_e0'] = -0.400330802 # uptake rate for L-Asparagine
-    # v_rfl.lo['EX_cpd00066_e0'] = -0.310015056 # uptake rate for L-Phenylalanine
-    # v_rfl.lo['EX_cpd00156_e0'] = -0.385856944 # uptake rate for L-Valine
-    # v_rfl.lo['EX_cpd00069_e0'] = -0.218417727 # uptake rate for L-Tyrosine
-    # v_prm.lo['EX_cpd00060_e0'] = -0.233929798 # uptake rate for L-Methionine
-    # v_prm.lo['EX_cpd00161_e0'] = -0.261179221 # uptake rate for L-Threonine
-    # v_rfl.lo['EX_cpd00161_e0'] = -0.261179221
-    # v_rfl.lo['EX_cpd00322_e0'] = -0.211165444 # uptake rate for L-Isoleucine
-    # v_prm.lo['EX_cpd00051_e0'] = -0.133660701 # uptake rate for L-Arginine
-    # v_rfl.lo['EX_cpd00051_e0'] = -0.133660701
-    # # v_prm.lo['EX_cpd00033_e0'] = -0.268595078 # uptake rate for Glycine ******
-    # # v_rfl.lo['EX_cpd00033_e0'] = -0.268595078
-    # v_prm.lo['EX_cpd00348_e0'] = -0.075513967 # uptake rate for D-Galactose 
-    # v_rfl.lo['EX_cpd00348_e0'] = -0.075513967
-    # v_rfl.lo['EX_cpd00119_e0'] = -0.124559013 # uptake rate for L-Histidine
-    # v_prm.lo['EX_cpd00039_e0'] = -0.098373937 # uptake rate for L-Lysine
-    # v_rfl.lo['EX_cpd00039_e0'] = -0.098373937
-    # v_prm.lo['EX_cpd00084_e0'] = -0.114920408 # uptake rate for L-Cysteine
-    # v_rfl.lo['EX_cpd00084_e0'] = -0.114920408
-    # v_prm.lo['EX_cpd00053_e0'] = -0.080568485 # uptake rate for L-Glutamine
-    # v_rfl.lo['EX_cpd00053_e0'] = -0.080568485
-    # v_rfl.lo['EX_cpd00038_e0'] = -0.007734655 # uptake rate for GTP
-    # v_rfl.lo['EX_cpd00138_e0'] = -0.021731242 # uptake rate for D-Mannose
-    # v_prm.lo['EX_cpd00052_e0'] = -0.00730785 # uptake rate for CTP
-    # v_rfl.lo['EX_cpd00052_e0'] = -0.00730785
-    # v_prm.lo['EX_cpd00002_e0'] = -0.006289719 # uptake rate for ATP
-    # v_rfl.lo['EX_cpd00002_e0'] = -0.006289719
-    # v_prm.lo['EX_cpd00062_e0'] = -0.005932755 # uptake rate for UTP
-    # v_rfl.lo['EX_cpd00062_e0'] = -0.005932755
-    # v_rfl.lo['EX_cpd00115_e0'] = -0.001147315 # uptake rate for dATP
-    # v_rfl.lo['EX_cpd00357_e0'] = -0.001147552 # uptake rate for dTTP
-    # v_rfl.lo['EX_cpd00241_e0'] = -0.001012678 # uptake rate for dGTP
-    # v_prm.lo['EX_cpd00356_e0'] = -0.001016235 # uptake rate for dCTP
-    # v_rfl.lo['EX_cpd00356_e0'] = -0.001016235
-    # # v_prm.lo['EX_cpd11746_e0'] = -0.320930655 # uptake rate for Cellulose ****
-    # v_rfl.lo['EX_cpd11746_e0'] = -0.320930655
-    # v_rfl.lo['EX_cpd29869_e0'] = -0.002499522 # uptake rate for hemicellulose
-    # v_prm.lo['EX_cpd00009_e0'] = -0.005244478 # uptake rate for Phosphate
-    # v_rfl.lo['EX_cpd00009_e0'] = -0.005244478
-    # v_rfl.lo['EX_cpd00065_e0'] = 0 # uptake rate for Tryptophan
-    # v_prm.lo['EX_cpd00073_e0'] = -0.629166662 # uptake rate for Urea
-    # v_rfl.lo['EX_cpd00073_e0'] = -0.629166662
-    # v_prm.lo['EX_cpd00048_e0'] = -0.004273279 # uptake rate for Sulfate
-    # v_rfl.lo['EX_cpd00048_e0'] = -0.004273279
+    # v_prm.lo['EX_cpd00048_e0'] = -0.004273279 * 4.55 # uptake rate for Sulfate, this is an inorganic ion, uptake set to max
+    # v_rfl.lo['EX_cpd00048_e0'] = -0.004273279 * 4.55
+
+    # added constraints to bring down the MGK flux
+    v_mgk.lo['EX_cpd00122_e0'] = -0.01 # uptake rate for n-acetyl-D-glucosamine
+
+
 
 
     # Dual variables for bounds
@@ -526,8 +476,8 @@ def Equations():
     trans_biotin_prm_balance = Equation(container=cowmunity, name='trans_biotin_prm_balance', description="Balance for biotin transfer to P. ruminicola")
     trans_biotin_prm_balance[...] = trans_biotin_prm <= v_rfl['EX_cpd00104_e0']
 
-    trans_thiamin_prm_balance = Equation(container=cowmunity, name='trans_thiamin_prm_balance', description="Balance for thiamin transfer to P. ruminicola")
-    trans_thiamin_prm_balance[...] = trans_thiamin_prm <= v_rfl['EX_cpd00305_e0']
+    # ****** commented to preserve RFL FLux ********* trans_thiamin_prm_balance = Equation(container=cowmunity, name='trans_thiamin_prm_balance', description="Balance for thiamin transfer to P. ruminicola")
+    # ****** commented to preserve RFL FLux ********* trans_thiamin_prm_balance[...] = trans_thiamin_prm <= v_rfl['EX_cpd00305_e0'] 
 
     trans_octadecenoate_prm_balance = Equation(container=cowmunity, name='trans_octadecenoate_prm_balance', description="Balance for octadecenoate transfer to P. ruminicola")
     trans_octadecenoate_prm_balance[...] = trans_octadecenoate_prm <= v_rfl['EX_cpd15269_e0'] + v_mgk['EX_cpd15269_e0']
@@ -538,14 +488,14 @@ def Equations():
     trans_nitrite_prm_balance = Equation(container=cowmunity, name='trans_nitrite_prm_balance', description="Balance for nitrite transfer to P. ruminicola")
     trans_nitrite_prm_balance[...] = trans_nitrite_prm <= v_mgk['EX_cpd00075_e0']
 
-    trans_n_acetyl_d_glucosamine_prm_balance = Equation(container=cowmunity, name='trans_n_acetyl_d_glucosamine_prm_balance', description="Balance for N-acetyl-D-glucosamine transfer to P. ruminicola")
-    trans_n_acetyl_d_glucosamine_prm_balance[...] = trans_n_acetyl_d_glucosamine_prm <= v_mgk['EX_cpd00122_e0']
+    # ****** commented to preserve MGK FLux ********* trans_n_acetyl_d_glucosamine_prm_balance = Equation(container=cowmunity, name='trans_n_acetyl_d_glucosamine_prm_balance', description="Balance for N-acetyl-D-glucosamine transfer to P. ruminicola")
+    # ****** commented to preserve MGK FLux ********* trans_n_acetyl_d_glucosamine_prm_balance[...] = trans_n_acetyl_d_glucosamine_prm <= v_mgk['EX_cpd00122_e0']
 
-    trans_aminoethanol_prm_balance = Equation(container=cowmunity, name='trans_aminoethanol_prm_balance', description="Balance for aminoethanol transfer to P. ruminicola")
-    trans_aminoethanol_prm_balance[...] = trans_aminoethanol_prm <= v_mgk['EX_cpd00162_e0']
+    # ****** commented to preserve MGK FLux ********* trans_aminoethanol_prm_balance = Equation(container=cowmunity, name='trans_aminoethanol_prm_balance', description="Balance for aminoethanol transfer to P. ruminicola")
+    # ****** commented to preserve MGK FLux ********* trans_aminoethanol_prm_balance[...] = trans_aminoethanol_prm <= v_mgk['EX_cpd00162_e0']
 
-    trans_cobinamide_prm_balance = Equation(container=cowmunity, name='trans_cobinamide_prm_balance', description="Balance for cobinamide transfer to P. ruminicola")
-    trans_cobinamide_prm_balance[...] = trans_cobinamide_prm <= v_mgk['EX_cpd03422_e0']
+    # ****** commented to preserve MGK FLux ********* trans_cobinamide_prm_balance = Equation(container=cowmunity, name='trans_cobinamide_prm_balance', description="Balance for cobinamide transfer to P. ruminicola")
+    # ****** commented to preserve MGK FLux ********* trans_cobinamide_prm_balance[...] = trans_cobinamide_prm <= v_mgk['EX_cpd03422_e0']
 
     trans_alanine_prm_balance = Equation(container=cowmunity, name='trans_alanine_prm_balance', description="Balance for alanine transfer to P. ruminicola")
     trans_alanine_prm_balance[...] = trans_alanine_prm <= v_mgk['EX_cpd00035_e0']
@@ -568,8 +518,8 @@ def Equations():
     trans_dephospho_coa_rfl_balance = Equation(container=cowmunity, name='trans_dephospho_coa_rfl_balance', description="Balance for dephospho-CoA transfer to R. flavefaciens")
     trans_dephospho_coa_rfl_balance[...] = trans_dephospho_coa_rfl <= v_mgk['EX_cpd00655_e0']
 
-    trans_cobinamide_rfl_balance = Equation(container=cowmunity, name='trans_cobinamide_rfl_balance', description="Balance for cobinamide transfer to R. flavefaciens")
-    trans_cobinamide_rfl_balance[...] = trans_cobinamide_rfl <= v_mgk['EX_cpd03422_e0']
+    # ****** commented to preserve MGK FLux ********* trans_cobinamide_rfl_balance = Equation(container=cowmunity, name='trans_cobinamide_rfl_balance', description="Balance for cobinamide transfer to R. flavefaciens")
+    # ****** commented to preserve MGK FLux ********* trans_cobinamide_rfl_balance[...] = trans_cobinamide_rfl <= v_mgk['EX_cpd03422_e0']
 
     trans_alanine_rfl_balance = Equation(container=cowmunity, name='trans_alanine_rfl_balance', description="Balance for alanine transfer to R. flavefaciens")
     trans_alanine_rfl_balance[...] = trans_alanine_rfl <= v_mgk['EX_cpd00035_e0']
@@ -580,14 +530,14 @@ def Equations():
     trans_glycine_rfl_balance = Equation(container=cowmunity, name='trans_glycine_rfl_balance', description="Balance for glycine transfer to R. flavefaciens")
     trans_glycine_rfl_balance[...] = trans_glycine_rfl <= v_mgk['EX_cpd00033_e0']
 
-    trans_proline_rfl_balance = Equation(container=cowmunity, name='trans_proline_rfl_balance', description="Balance for proline transfer to R. flavefaciens")
-    trans_proline_rfl_balance[...] = trans_proline_rfl <= v_mgk['EX_cpd00129_e0']
+    # ****** commented to preserve RFL FLux ********* trans_proline_rfl_balance = Equation(container=cowmunity, name='trans_proline_rfl_balance', description="Balance for proline transfer to R. flavefaciens")
+    # ****** commented to preserve RFL FLux ********* trans_proline_rfl_balance[...] = trans_proline_rfl <= v_mgk['EX_cpd00129_e0']
 
-    trans_aminoethanol_rfl_balance = Equation(container=cowmunity, name='trans_aminoethanol_rfl_balance', description="Balance for aminoethanol transfer to R. flavefaciens")
-    trans_aminoethanol_rfl_balance[...] = trans_aminoethanol_rfl <= v_mgk['EX_cpd00162_e0']
+    # ****** commented to preserve MGK FLux ********* trans_aminoethanol_rfl_balance = Equation(container=cowmunity, name='trans_aminoethanol_rfl_balance', description="Balance for aminoethanol transfer to R. flavefaciens")
+    # ****** commented to preserve MGK FLux ********* trans_aminoethanol_rfl_balance[...] = trans_aminoethanol_rfl <= v_mgk['EX_cpd00162_e0']
 
-    overall_cobinamide_balance = Equation(container=cowmunity, name='overall_cobinamide_balance', description='Balance for cobinamide transfer for both prm and rfl')
-    overall_cobinamide_balance[...] = trans_cobinamide_prm + trans_cobinamide_rfl <= v_mgk['EX_cpd03422_e0']
+    # ****** commented to preserve MGK FLux ********* overall_cobinamide_balance = Equation(container=cowmunity, name='overall_cobinamide_balance', description='Balance for cobinamide transfer for both prm and rfl')
+    # ****** commented to preserve MGK FLux ********* overall_cobinamide_balance[...] = trans_cobinamide_prm + trans_cobinamide_rfl <= v_mgk['EX_cpd03422_e0']
 
     overall_alanine_balance = Equation(container=cowmunity, name='overall_alanine_balance', description='Balance for alanine transfer for both prm and rfl')
     overall_alanine_balance[...] = trans_alanine_prm + trans_alanine_rfl <= v_mgk['EX_cpd00035_e0']
@@ -601,8 +551,8 @@ def Equations():
     overall_proline_balance = Equation(container=cowmunity, name='overall_proline_balance', description='Balance for proline transfer for both prm and rfl')
     overall_proline_balance[...] = trans_proline_prm + trans_proline_rfl <= v_mgk['EX_cpd00129_e0']
 
-    overall_aminoethanol_balance = Equation(container=cowmunity, name='overall_aminoethanol_balance', description='Balance for aminoethanol transfer for both prm and rfl')
-    overall_aminoethanol_balance[...] = trans_aminoethanol_prm + trans_aminoethanol_rfl <= v_mgk['EX_cpd00162_e0']
+    # ****** commented to preserve MGK FLux ********* overall_aminoethanol_balance = Equation(container=cowmunity, name='overall_aminoethanol_balance', description='Balance for aminoethanol transfer for both prm and rfl')
+    # ****** commented to preserve MGK FLux ********* overall_aminoethanol_balance[...] = trans_aminoethanol_prm + trans_aminoethanol_rfl <= v_mgk['EX_cpd00162_e0']
 
     # adding the constraints to each model
 
@@ -645,8 +595,8 @@ def Equations():
     constraint_biotin_prm = Equation(container=cowmunity, name='constraint_biotin_prm', description="constraint for the uptake of Biotin to P. ruminicola")
     constraint_biotin_prm[...] = trans_biotin_prm == v_prm['EX_cpd00104_e0']
 
-    constraint_thiamin_prm = Equation(container=cowmunity, name='constraint_thiamin_prm', description="constraint for the uptake of Thiamin to P. ruminicola")
-    constraint_thiamin_prm[...] = trans_thiamin_prm == v_prm['EX_cpd00305_e0']
+    # ****** commented to preserve RFL FLux ********* constraint_thiamin_prm = Equation(container=cowmunity, name='constraint_thiamin_prm', description="constraint for the uptake of Thiamin to P. ruminicola")
+    # ****** commented to preserve RFL FLux ********* constraint_thiamin_prm[...] = trans_thiamin_prm == v_prm['EX_cpd00305_e0']
 
     constraint_octadecenoate_prm = Equation(container=cowmunity, name='constraint_octadecenoate_prm', description="constraint for the uptake of octadecenoate to P. ruminicola")
     constraint_octadecenoate_prm[...] = trans_octadecenoate_prm == v_prm['EX_cpd15269_e0']
@@ -657,14 +607,14 @@ def Equations():
     constraint_nitrite_prm = Equation(container=cowmunity, name='constraint_nitrite_prm', description="constraint for the uptake of Nitrite to P. ruminicola")
     constraint_nitrite_prm[...] = trans_nitrite_prm == v_prm['EX_cpd00075_e0']
 
-    constraint_n_acetyl_d_glucosamine_prm = Equation(container=cowmunity, name='constraint_n_acetyl_d_glucosamine_prm', description="constraint for the uptake of N-Acetyl-D-glucosamine to P. ruminicola")
-    constraint_n_acetyl_d_glucosamine_prm[...] = trans_n_acetyl_d_glucosamine_prm == v_prm['EX_cpd00122_e0']
+    # ****** commented to preserve MGK FLux ********* constraint_n_acetyl_d_glucosamine_prm = Equation(container=cowmunity, name='constraint_n_acetyl_d_glucosamine_prm', description="constraint for the uptake of N-Acetyl-D-glucosamine to P. ruminicola")
+    # ****** commented to preserve MGK FLux ********* constraint_n_acetyl_d_glucosamine_prm[...] = trans_n_acetyl_d_glucosamine_prm == v_prm['EX_cpd00122_e0']
 
-    constraint_aminoethanol_prm = Equation(container=cowmunity, name='constraint_aminoethanol_prm', description="constraint for the uptake of Aminoethanol to P. ruminicola")
-    constraint_aminoethanol_prm[...] = trans_aminoethanol_prm == v_prm['EX_cpd00162_e0']
+    # ****** commented to preserve MGK FLux ********* constraint_aminoethanol_prm = Equation(container=cowmunity, name='constraint_aminoethanol_prm', description="constraint for the uptake of Aminoethanol to P. ruminicola")
+    # ****** commented to preserve MGK FLux ********* constraint_aminoethanol_prm[...] = trans_aminoethanol_prm == v_prm['EX_cpd00162_e0']
 
-    constraint_cobinamide_prm = Equation(container=cowmunity, name='constraint_cobinamide_prm', description="constraint for the uptake of Cobinamide to P. ruminicola")
-    constraint_cobinamide_prm[...] = trans_cobinamide_prm == v_prm['EX_cpd03422_e0']
+    # ****** commented to preserve MGK FLux ********* constraint_cobinamide_prm = Equation(container=cowmunity, name='constraint_cobinamide_prm', description="constraint for the uptake of Cobinamide to P. ruminicola")
+    # ****** commented to preserve MGK FLux ********* constraint_cobinamide_prm[...] = trans_cobinamide_prm == v_prm['EX_cpd03422_e0']
 
     constraint_alanine_prm = Equation(container=cowmunity, name='constraint_alanine_prm', description="constraint for the uptake of Alanine to P. ruminicola")
     constraint_alanine_prm[...] = trans_alanine_prm == v_prm['EX_cpd00035_e0']
@@ -687,8 +637,8 @@ def Equations():
     constraint_dephospho_coa_rfl = Equation(container=cowmunity, name='constraint_dephospho_coa_rfl', description="constraint for the uptake of Dephospho-CoA to R. flavefaciens")
     constraint_dephospho_coa_rfl[...] = trans_dephospho_coa_rfl == v_rfl['EX_cpd00655_e0']
 
-    constraint_cobinamide_rfl = Equation(container=cowmunity, name='constraint_cobinamide_rfl', description="constraint for the uptake of Cobinamide to R. flavefaciens")
-    constraint_cobinamide_rfl[...] = trans_cobinamide_rfl == v_rfl['EX_cpd03422_e0']
+    # ****** commented to preserve MGK FLux ********* constraint_cobinamide_rfl = Equation(container=cowmunity, name='constraint_cobinamide_rfl', description="constraint for the uptake of Cobinamide to R. flavefaciens")
+    # ****** commented to preserve MGK FLux ********* constraint_cobinamide_rfl[...] = trans_cobinamide_rfl == v_rfl['EX_cpd03422_e0']
 
     constraint_alanine_rfl = Equation(container=cowmunity, name='constraint_alanine_rfl', description="constraint for the uptake of Alanine to R. flavefaciens")
     constraint_alanine_rfl[...] = trans_alanine_rfl == v_rfl['EX_cpd00035_e0']
@@ -699,11 +649,11 @@ def Equations():
     constraint_glycine_rfl = Equation(container=cowmunity, name='constraint_glycine_rfl', description="constraint for the uptake of Glycine to R. flavefaciens")
     constraint_glycine_rfl[...] = trans_glycine_rfl == v_rfl['EX_cpd00033_e0']
 
-    constraint_proline_rfl = Equation(container=cowmunity, name='constraint_proline_rfl', description="constraint for the uptake of Proline to R. flavefaciens")
-    constraint_proline_rfl[...] = trans_proline_rfl == v_rfl['EX_cpd00129_e0']
+    # ****** commented to preserve RFL FLux ********* constraint_proline_rfl = Equation(container=cowmunity, name='constraint_proline_rfl', description="constraint for the uptake of Proline to R. flavefaciens")
+    # ****** commented to preserve RFL FLux ********* constraint_proline_rfl[...] = trans_proline_rfl == v_rfl['EX_cpd00129_e0']
 
-    constraint_aminoethanol_rfl = Equation(container=cowmunity, name='constraint_aminoethanol_rfl', description="constraint for the uptake of Aminoethanol to R. flavefaciens")
-    constraint_aminoethanol_rfl[...] = trans_aminoethanol_rfl == v_rfl['EX_cpd00162_e0']
+    # ****** commented to preserve MGK FLux ********* constraint_aminoethanol_rfl = Equation(container=cowmunity, name='constraint_aminoethanol_rfl', description="constraint for the uptake of Aminoethanol to R. flavefaciens")
+    # ****** commented to preserve MGK FLux ********* constraint_aminoethanol_rfl[...] = trans_aminoethanol_rfl == v_rfl['EX_cpd00162_e0']
 
     # mass balance equations
 
@@ -993,7 +943,7 @@ def solve(solver_name='IPOPT'):
                     problem="NLP", sense=Sense.MAX, objective=objective_variable)
     
     # Set solver options
-    options = Options(nlp=solver_name, equation_listing_limit=10, variable_listing_limit=10, time_limit=5, threads=0)
+    options = Options(nlp=solver_name, equation_listing_limit=10, variable_listing_limit=10, time_limit=20, threads=0)
 
     # Solve the model
     print(f"Solving with {solver_name}...")
