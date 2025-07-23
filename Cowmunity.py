@@ -222,7 +222,7 @@ def Parameters():
     ub_rfl[j_rfl].where[rxntype_rfl[j_rfl] == 1] = Vmax
     lb_rfl[j_rfl].where[rxntype_rfl[j_rfl] == 1] = -Vmax
 
-def Variables(variable_choice):
+def Variables(variable_choice, treatment='no'):
     global v_mgk, v_prm, v_rfl, biomass_outer, ATP_outer, objective_variable
 
     biomass_outer = Variable(container=cowmunity, name="biomass_outer", description="Outer problem Biomass objective function")
@@ -316,10 +316,34 @@ def Variables(variable_choice):
     # v_rfl.lo['EX_cpd00048_e0'] = -0.004273279 * 4.55
 
     # added constraints to bring down the MGK flux
+    v_mgk.lo['EX_cpd00162_e0'] = -1 # uptake rate for aminoethanol
     v_mgk.lo['EX_cpd00122_e0'] = -0.01 # uptake rate for n-acetyl-D-glucosamine
 
+    # added contraints to coorespond to the different treatment options
 
+    if treatment == 'imidazole':
+        # reactions that are affected by imidazole treatment
+        print("Imidazole treatment selected, setting constraints...")
+    elif treatment == 'l-carnitine':
+        # reactions that are affected by l-carnitine treatment
+        print("L-carnitine treatment selected, setting constraints...")
+    elif treatment == 'methyl jasmonate':
+        print("Methyl jasmonate treatment selected, setting constraints...")
+        # v_mgk.lo['R_rxn09296_c0'] = 0.0005201736148737044 * 1.4 # H2O2 reduction by thioredoxin, 1.4 times the original value based on Lubyanova paper
+        # v_prm.lo['R_rxn09296_c0'] = 71.50423813116777 * 1.4
+        # v_rfl.lo['R_rxn09296_c0'] = 316.9770835412888 * 1.4
+        # v_rfl.lo['R_rxn05221_c0'] = 0.02363474197622119 * 1.23 # proline transport, 1.23 times the original value based on Lubyanova paper
+        # v_prm.lo['R_rxn12638_c0'] = 65.98723846787729 * 1.23 # breakdown of N-glycylproline
+        v_mgk.lo['EX_cpd00129_e0'] = 0.01608686252400516 * 1.23 # output rate for proline, 1.23 times the original value based on Lubyanova paper
+        v_prm.lo['EX_cpd00129_e0'] = 0.004029898865569517 * 1.23
+        # v_rfl.lo['EX_cpd00129_e0'] = -0.02363474197622119 * -1.23
 
+    elif treatment == 'propylpyrazine':
+        # reactions that are affected by propylpyrazine treatment
+        print("Propylpyrazine treatment selected, setting constraints...")
+    elif treatment == 'no':
+        # no treatment, no additional constraints
+        print("No treatment selected, using default constraints.")
 
     # Dual variables for bounds
     global muLB_mgk, muUB_mgk, muLB_prm, muUB_prm, muLB_rfl, muUB_rfl
@@ -971,20 +995,20 @@ def print_results():
     """Print results in a formatted way"""
     print()
     print("********************* RESULTS *********************")
-    print(f"Total Biomass = {results['objective_value']}")
+    print(f"Total Biomass = {results['objective_value']:5f}")
     print()
     
     print("********************* MGK *************************")
-    print(f"MGK Biomass Flux = {results['mgk_biomass']}")
-    print(f"Methane Emission Flux = {results['methane_flux']}")
+    print(f"MGK Biomass Flux = {results['mgk_biomass']:5f}")
+    print(f"Methane Emission Flux = {results['methane_flux']:5f}")
     print()
     
     print("********************* PRM *************************")
-    print(f"PRM Biomass Flux = {results['prm_biomass']}")
+    print(f"PRM Biomass Flux = {results['prm_biomass']:5f}")
     print()
     
     print("********************* RFL *************************")
-    print(f"RFL Biomass Flux = {results['rfl_biomass']}")
+    print(f"RFL Biomass Flux = {results['rfl_biomass']:5f}")
     print()
 
 def bug_huntin():
@@ -1006,20 +1030,22 @@ def bug_huntin():
         if check_reaction(reaction, 'M. gottschalkii.xml') is None:
             print(f'Reaction {reaction} not found in M. gottschalkii model.')
         else:
-            mgk_flux = v_mgk.records.loc[v_mgk.records['j_mgk'] == reaction, 'level'].iloc[0]
+            mgk_flux = v_mgk.records.loc[v_mgk.records['j_mgk'] == reaction.strip(), 'level'].iloc[0]
             print(f'MGK {reaction}: {mgk_flux}')
         if check_reaction(reaction, 'P. ruminicola.xml') is None:
             print(f'Reaction {reaction} not found in P. ruminicola model.')
         else:
-            prm_flux = v_prm.records.loc[v_prm.records['j_prm'] == reaction, 'level'].iloc[0]
+            prm_flux = v_prm.records.loc[v_prm.records['j_prm'] == reaction.strip(), 'level'].iloc[0]
             print(f'PRM {reaction}: {prm_flux}')
         if check_reaction(reaction, 'R. flavefaciens.xml') is None:
             print(f'Reaction {reaction} not found in R. flavefaciens model.')
         else:
-            rfl_flux = v_rfl.records.loc[v_rfl.records['j_rfl'] == reaction, 'level'].iloc[0]
+            rfl_flux = v_rfl.records.loc[v_rfl.records['j_rfl'] == reaction.strip(), 'level'].iloc[0]
             print(f'RFL {reaction}: {rfl_flux}')
+    
+    print_reaction('EX_cpd00129_e0')
 
-    # print_reaction('EX_cpd00138_e0')
+
 
     def flux_investigation(file_name, v_set, j_set, i_set, metabolite):
 
