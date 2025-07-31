@@ -1,4 +1,4 @@
-from Cowmunity import Sets, Parameters, Variables, Equations, FixSBMLs, solve, extract_results, print_results, bug_huntin
+from Cowmunity import Sets, Parameters, Variables, Equations, FixSBMLs, solve, extract_results, print_results, save_results, bug_huntin
 
 # variable_choice can be set to 'biomass_outer' or 'ATP_outer'
 
@@ -10,6 +10,21 @@ cow = file.read()
 print(cow)
 print()
 
+# print('Choose whether to solve with variable or fixed methane output:\n\n\
+# 0. Variable\n\
+# 1. Fixed')
+# print()
+# methane_choice = input('Enter your choice (0-1): ')
+# print()
+
+# if methane_choice == '0':
+#     methane = 'variable'
+# elif methane_choice == '1':
+#     methane = 'fixed'
+# else:
+#     print('Invalid choice. Defaulting to variable methane output.')
+#     methane = 'variable'
+
 print('Choose the treatment molecule to be used in the model:\n\n\
 0. None\n\
 1. Imidazole\n\
@@ -19,6 +34,7 @@ print('Choose the treatment molecule to be used in the model:\n\n\
 print()
 treatment_choice = input('Enter your choice (0-4): ')
 print()
+
 
 if treatment_choice == '0':
     treatment = 'no'
@@ -43,5 +59,6 @@ Variables(variable_choice, treatment)
 Equations()
 solve()
 extract_results()
+save_results(treatment)
 print_results()
 bug_huntin()

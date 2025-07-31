@@ -1,8 +1,7 @@
 import pandas as pd
 import libsbml
 from gamspy import Container, Set, Parameter, Variable, Equation, Model, Sum, Sense, Options, SpecialValues, SolveStatus
-from gamspy.math import abs
-import sys
+import os
 
 def Sets():
     print("Creating sets...")
@@ -222,7 +221,7 @@ def Parameters():
     ub_rfl[j_rfl].where[rxntype_rfl[j_rfl] == 1] = Vmax
     lb_rfl[j_rfl].where[rxntype_rfl[j_rfl] == 1] = -Vmax
 
-def Variables(variable_choice, treatment='no'):
+def Variables(variable_choice, treatment='no', methane='variable'):
     global v_mgk, v_prm, v_rfl, biomass_outer, ATP_outer, objective_variable
 
     biomass_outer = Variable(container=cowmunity, name="biomass_outer", description="Outer problem Biomass objective function")
@@ -321,29 +320,88 @@ def Variables(variable_choice, treatment='no'):
 
     # added contraints to coorespond to the different treatment options
 
-    if treatment == 'imidazole':
-        # reactions that are affected by imidazole treatment
-        print("Imidazole treatment selected, setting constraints...")
-    elif treatment == 'l-carnitine':
-        # reactions that are affected by l-carnitine treatment
-        print("L-carnitine treatment selected, setting constraints...")
-    elif treatment == 'methyl jasmonate':
-        print("Methyl jasmonate treatment selected, setting constraints...")
-        # v_mgk.lo['R_rxn09296_c0'] = 0.0005201736148737044 * 1.4 # H2O2 reduction by thioredoxin, 1.4 times the original value based on Lubyanova paper
-        # v_prm.lo['R_rxn09296_c0'] = 71.50423813116777 * 1.4
-        # v_rfl.lo['R_rxn09296_c0'] = 316.9770835412888 * 1.4
-        # v_rfl.lo['R_rxn05221_c0'] = 0.02363474197622119 * 1.23 # proline transport, 1.23 times the original value based on Lubyanova paper
-        # v_prm.lo['R_rxn12638_c0'] = 65.98723846787729 * 1.23 # breakdown of N-glycylproline
-        v_mgk.lo['EX_cpd00129_e0'] = 0.01608686252400516 * 1.23 # output rate for proline, 1.23 times the original value based on Lubyanova paper
-        v_prm.lo['EX_cpd00129_e0'] = 0.004029898865569517 * 1.23
-        # v_rfl.lo['EX_cpd00129_e0'] = -0.02363474197622119 * -1.23
-
-    elif treatment == 'propylpyrazine':
-        # reactions that are affected by propylpyrazine treatment
-        print("Propylpyrazine treatment selected, setting constraints...")
-    elif treatment == 'no':
-        # no treatment, no additional constraints
-        print("No treatment selected, using default constraints.")
+    if methane == 'variable':
+        if treatment == 'imidazole':
+            # reactions that are affected by imidazole treatment
+            # Imidazole inhibits lysozyme activity in protozoa, reducing their ability to digest bacteria
+            # This reduces predation pressure on bacteria, allowing them to grow more freely
+            # We simulate this by increasing biomass production rates and reducing some metabolic constraints
+            
+            # Increase biomass production rates for all bacteria (reduced predation pressure)
+            v_mgk.lo['R_biomass0'] = v_mgk.lo['R_biomass0'] * 1.15  # Increase biomass production by 15%
+            v_prm.lo['R_biomass0'] = v_prm.lo['R_biomass0'] * 1.15
+            v_rfl.lo['R_biomass0'] = v_rfl.lo['R_biomass0'] * 1.15
+            # Increase substrate uptake rates (bacteria can access more resources with reduced predation)
+            # Note: We'll use more conservative increases and only apply to reactions that exis
+            # v_prm.lo['EX_cpd00027_e0'] = v_prm.lo['EX_cpd00027_e0'] * 1.2
+            # v_rfl.lo['EX_cpd00027_e0'] = v_rfl.lo['EX_cpd00027_e0'] * 1.2
+            # Increase acetate production (common byproduct of bacterial metabolism)
+            v_mgk.lo['EX_cpd00029_e0'] = v_mgk.lo['EX_cpd00029_e0'] * 1.1
+            v_prm.lo['EX_cpd00029_e0'] = v_prm.lo['EX_cpd00029_e0'] * 1.1
+            v_rfl.lo['EX_cpd00029_e0'] = v_rfl.lo['EX_cpd00029_e0'] * 1.1            
+            # Increase formate production (important for methanogenesis)
+            # v_mgk.lo['EX_cpd00056_e0'] = v_mgk.lo['EX_cpd00056_e0'] * 1.2
+            # v_prm.lo['EX_cpd00056_e0'] = v_prm.lo['EX_cpd00056_e0'] * 1.2
+            # v_rfl.lo['EX_cpd00056_e0'] = v_rfl.lo['EX_cpd00056_e0'] * 1.2
+            # Increase H2 production (important substrate for methanogenesis)
+            v_mgk.lo['EX_cpd00067_e0'] = v_mgk.lo['EX_cpd00067_e0'] * 1.25
+            v_prm.lo['EX_cpd00067_e0'] = v_prm.lo['EX_cpd00067_e0'] * 1.25
+            v_rfl.lo['EX_cpd00067_e0'] = v_rfl.lo['EX_cpd00067_e0'] * 1.25
+            print("Imidazole treatment selected, setting constraints...")
+        elif treatment == 'l-carnitine':
+            # reactions that are affected by l-carnitine treatment
+            v_mgk.lo['EX_cpd01188_e0'] = -0.009476130618701499 * 0.89 # output rate for lanosterol, 0.87 times the original value becase cholesterol falls
+            v_rfl.lo['EX_cpd01188_e0'] = -0.01658854044409092 * 0.89
+            print("L-carnitine treatment selected, setting constraints...")
+        elif treatment == 'methyl jasmonate':
+            print("Methyl jasmonate treatment selected, setting constraints...")
+            v_mgk.lo['EX_cpd00129_e0'] = 0.01608686252400516 * 1.23 # output rate for proline, 1.23 times the original value based on Lubyanova paper
+            v_prm.lo['EX_cpd00129_e0'] = 0.004029898865569517 * 1.23
+            # v_mgk.lo['R_rxn09296_c0'] = 0.0005201736148737044 * 1.4 # H2O2 reduction by thioredoxin, 1.4 times the original value based on Lubyanova paper
+            # v_prm.lo['R_rxn09296_c0'] = 71.50423813116777 * 1.4
+            # v_rfl.lo['R_rxn09296_c0'] = 316.9770835412888 * 1.4
+            # v_prm.lo['R_rxn12638_c0'] = 65.98723846787729 * 1.23 # breakdown of N-glycylproline
+        elif treatment == 'propylpyrazine':
+            # reactions that are affected by propylpyrazine treatment
+            # v_mgk.lo['R_rxn00305_c0'] = 191.07533512418465 * 3.02 # Pck1 expression went up about 3 times after treatment with TMP, should affect GTP and phosphoenolpyruvate
+            # v_prm.lo['R_rxn00305_c0'] = 169.79210656337526 * 3.02
+            # v_rfl.lo['R_rxn00305_c0'] = 164.67010537093077 * 3.02
+            # v_mgk.lo['R_rxn00285_c0'] = 0.0011420124768651806 * 2.14 # Sucla2 expression went up about 2.14 times after treatment with propylpyrazine, should affect succinyl-CoA
+            # v_rfl.lo['R_rxn00285_c0'] = 0.012806125516892619 * 2.14
+            # v_mgk.lo['R_rxn12510_c0'] = 0.0010308604158823106 * 1.77 # Pank1 expression went up about 1.77 times after treatment with propylpyrazine, should affect phosphorylation of pantothenate
+            # v_prm.lo['R_rxn12510_c0'] = 0.008928357454568775 * 1.77
+            # v_rfl.lo['R_rxn12510_c0'] = 0.0015697141164147958 * 1.77
+            # v_prm.lo['R_rxn00248_c0'] = 167.2035577959039 * 1.93 # Mdh2 went up about 1.93 times after treatment with propylpyrazine, should affect conversion of L-malate to oxaloacetate
+            # v_mgk.lo['R_rxn06037_c0'] = -6.170993629588869e-21 * 3.08 # Hadhb expression went up about 3.08 times after treatment with propylpyrazine, should affect conversion of 3-hydroxyacyl-CoA -> 3-oxoacyl-CoA
+            # v_prm.lo['R_rxn00799_c0'] = 127.86504315656339 * 2.19 # Fh1 expression went up about 2.19 times after treatment with propylpyrazine, should affect conversion of fumarate to L-malate
+            # v_rfl.lo['R_rxn00256_c0'] = 104.25331895829011 * 1.43 # Cs expression went up about 1.43 times after treatment with propylpyrazine, should affect conversion of oxaloacetate to citrate
+            v_mgk.lo['R_rxn12512_c0'] = 0.000453718935224341 * 1.17 # Ppcs expression went up about 1.17 times after treatment with propylpyrazine, should affect conversion of phosphopantothenate combination with cysteine
+            v_prm.lo['R_rxn12512_c0'] = 0.004463845288178093 * 1.17
+            v_rfl.lo['R_rxn12512_c0'] = 0.0007848557326249302 * 1.17
+            print("Propylpyrazine treatment selected, setting constraints...")
+        elif treatment == 'no':
+            # no treatment, no additional constraints
+            print("No treatment selected, using default constraints.")
+    elif methane == 'fixed':
+        if treatment == 'imidazole':
+            # reactions that are affected by imidazole treatment
+            v_mgk.fx['EX_cpd01024_e0'] = 3.74 * 2.5125e-5  # output rate for methane based on USDA data, conversion factor from ml to mmol/gDCW.hr
+            print("Imidazole treatment selected, setting constraints...")
+        elif treatment == 'l-carnitine':
+            v_mgk.fx['EX_cpd01024_e0'] = 3.79 * 2.5125e-5
+            # reactions that are affected by l-carnitine treatment
+            print("L-carnitine treatment selected, setting constraints...")
+        elif treatment == 'methyl jasmonate':
+            v_mgk.fx['EX_cpd01024_e0'] = 3.53 * 2.5125e-5
+            print("Methyl jasmonate treatment selected, setting constraints...")
+        elif treatment == 'propylpyrazine':
+            v_mgk.fx['EX_cpd01024_e0'] = 4.40 * 2.5125e-5
+            # reactions that are affected by propylpyrazine treatment
+            print("Propylpyrazine treatment selected, setting constraints...")
+        elif treatment == 'no':
+            # no treatment, no additional constraints
+            v_mgk.fx['EX_cpd01024_e0'] = 3.40 * 2.5125e-5
+            print("No treatment selected, using default constraints.")
 
     # Dual variables for bounds
     global muLB_mgk, muUB_mgk, muLB_prm, muUB_prm, muLB_rfl, muUB_rfl
@@ -991,6 +1049,14 @@ def extract_results():
         'methane_flux' : v_mgk.records.loc[v_mgk.records['j_mgk'] == 'EX_cpd01024_e0', 'level'].iloc[0]
     }
 
+def save_results(treatment, methane = 'variable'):
+    """Save results to a CSV file"""
+    os.makedirs(f'results/{methane}_methane_{treatment}_treatment', exist_ok=True)
+    v_mgk.records.to_csv(f'results/{methane}_methane_{treatment}_treatment/mgk_records.csv', index=False)
+    v_prm.records.to_csv(f'results/{methane}_methane_{treatment}_treatment/prm_records.csv', index=False)
+    v_rfl.records.to_csv(f'results/{methane}_methane_{treatment}_treatment/rfl_records.csv', index=False)
+    print(f"Results saved to 'results/{methane}_methane_{treatment}_treatment'.")
+
 def print_results():
     """Print results in a formatted way"""
     print()
@@ -1042,8 +1108,9 @@ def bug_huntin():
         else:
             rfl_flux = v_rfl.records.loc[v_rfl.records['j_rfl'] == reaction.strip(), 'level'].iloc[0]
             print(f'RFL {reaction}: {rfl_flux}')
+
     
-    print_reaction('EX_cpd00129_e0')
+    print_reaction('EX_cpd01188_e0')
 
 
 
@@ -1124,6 +1191,9 @@ def bug_huntin():
         print(f'\nBiomass precursors with zero or negative production:')
         for item in list_to_investigate:
             print(item)
+        
+        print(model.getNumReactions(), 'reactions in the model')
+        print(model.getNumSpecies(), 'species in the model')
 
     # biomass_fluxes(*mgk)
     # biomass_fluxes(*prm)
@@ -1192,8 +1262,8 @@ def bug_huntin():
     # zero_flux_reactions(*mgk)
     # zero_flux_reactions(*prm)
     # zero_flux_reactions(*rfl)
-    
-    
+
+
 
 
 
