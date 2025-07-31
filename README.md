@@ -30,7 +30,7 @@ The treatment option available when you run the model will set different reactio
 
 # Acknowledgements
 
-The Cowmunity Model was developed by Evan Ingmire in collaboration with Mohammed Reza Zargar, Dr. Karuna Anna Sajeevan, and Dr. Ratul Chowdhury at Iowa State University.
+The Cowmunity Model was developed by Evan Ingmire in collaboration with Mohammad Reza Zargar, Dr. Karuna Anna Sajeevan, and Dr. Ratul Chowdhury at Iowa State University.
 
 The OptCom model was originally developed by Zomorrodi and Maranas. 
 
