@@ -14,6 +14,12 @@ In your terminal, create a virtual environment and run...
 pip install pandas python-libsbml gamspy
 ```
 
+Register for a GAMSpy Academic License [here](https://academic.gams.com/)
+
+```bash
+gamspy install license <your-gamspy-license>
+```
+
 ## Running The Model
 
 Set your current directory to the folder where you placed all of the files from the .zip.
