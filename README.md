@@ -28,8 +28,8 @@ The Cowmunity Model was developed by Evan Ingmire in collaboration with Mohammed
 
 The OptCom model was originally developed by Zomorrodi and Maranas. 
 
-Zomorrodi, A.R. and C.D. Maranas (2012), "[OptCom: A multi-level optimization framework for the metabolic modeling and analysis of microbial communities]([url](https://www.maranasgroup.com/pub/2012/OptCom_2012.pdf))," PLoS Computational Biology, 8(2):e1002363. PMID: [22319433]([url](http://www.ncbi.nlm.nih.gov/pubmed/22319433)).
+Zomorrodi, A.R. and C.D. Maranas (2012), "[OptCom: A multi-level optimization framework for the metabolic modeling and analysis of microbial communities](https://www.maranasgroup.com/pub/2012/OptCom_2012.pdf)," PLoS Computational Biology, 8(2):e1002363. PMID: [22319433](http://www.ncbi.nlm.nih.gov/pubmed/22319433).
 
 The SBML Models attached to this repository were originally developed by Islam et al.
 
-Islam MM, Fernando SC and Saha R (2019), "Metabolic Modeling Elucidates the Transactions in the Rumen Microbiome and the Shifts Upon Virome Interactions," Front. Microbiol. 10:2412. doi: [10.3389/fmicb.2019.02412]([url](https://doi.org/10.3389/fmicb.2019.02412))
+Islam MM, Fernando SC and Saha R (2019), "Metabolic Modeling Elucidates the Transactions in the Rumen Microbiome and the Shifts Upon Virome Interactions," Front. Microbiol. 10:2412. doi: [10.3389/fmicb.2019.02412](https://doi.org/10.3389/fmicb.2019.02412).
