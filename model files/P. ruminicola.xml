@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level2" xmlns:html="http://www.w3.org/1999/xhtml" level="2" version="1">
   <model id="Prm" name="Prevotella ruminicola">
+    <notes>v2.5</notes>
     <listOfUnitDefinitions>
       <unitDefinition id="mmol_per_gDW_per_hr">
         <listOfUnits>
@@ -1309,6 +1310,17 @@
       <species id="M_cpd00035_e0" name="L-Alanine[e0]" compartment="e0" boundaryCondition="false" charge="0"/>
       <species id="M_cpd00107_e0" name="L-Leucine[e0]" compartment="e0" boundaryCondition="false" charge="0"/>
       <species id="M_cpd00033_e0" name="Glycine[e0]" compartment="e0" boundaryCondition="false" charge="0"/>
+      <species id="M_cpd11657_e0" name="Starch[e0]" compartment="e0" boundaryCondition="false" charge="0"/>
+      <species id="M_cpd00076_e0" name="Sucrose[e0]" compartment="e0" boundaryCondition="false" charge="0"/>
+      <species id="M_cpd00053_e0" name="L-Glutamine[e0]" compartment="e0" boundaryCondition="false" charge="0"/>
+      <species id="M_cpd00161_e0" name="L-Threonine[e0]" compartment="e0" boundaryCondition="false" charge="0"/>
+      <species id="M_cpd00348_e0" name="D-Galactose 1-phosphate[e0]" compartment="e0" boundaryCondition="false" charge="-2"/>
+      <species id="M_cpd00084_e0" name="L-Cysteine[e0]" compartment="e0" boundaryCondition="false" charge="0"/>
+      <species id="M_cpd00052_e0" name="CTP[e0]" compartment="e0" boundaryCondition="false" charge="-3"/>
+      <species id="M_cpd00002_e0" name="ATP[e0]" compartment="e0" boundaryCondition="false" charge="-3"/>
+      <species id="M_cpd00062_e0" name="UTP[e0]" compartment="e0" boundaryCondition="false" charge="-3"/>
+      <species id="M_cpd00356_e0" name="dCTP[e0]" compartment="e0" boundaryCondition="false" charge="-3"/>
+      <species id="M_cpd00073_e0" name="Urea[e0]" compartment="e0" boundaryCondition="false" charge="0"/>
     </listOfSpecies>
     <listOfReactions>
       <reaction id="R_acTransport" name="acetate transport" reversible="true">
@@ -30724,6 +30736,391 @@
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="M_cpd00033_e0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="EX_cpd11657_e0" name="Starch export/import" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd11657_e0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_cpd11657_transport" name="Starch transport" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd11657_c0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_cpd11657_e0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="EX_cpd00076_e0" name="Sucrose export/import" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00076_e0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_cpd00076_transport" name="Sucrose transport" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00076_c0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_cpd00076_e0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="EX_cpd00053_e0" name="L-Glutamine export/import" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00053_e0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_cpd00053_transport" name="L-Glutamine transport" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00053_c0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_cpd00053_e0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="EX_cpd00161_e0" name="L-Threonine export/import" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00161_e0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_cpd00161_transport" name="L-Threonine transport" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00161_c0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_cpd00161_e0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="EX_cpd00348_e0" name="D-Galactose 1-phosphate export/import" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00348_e0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_cpd00348_transport" name="D-Galactose 1-phosphate transport" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00348_c0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_cpd00348_e0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="EX_cpd00084_e0" name="L-Cysteine export/import" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00084_e0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_cpd00084_transport" name="L-Cysteine transport" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00084_c0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_cpd00084_e0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="EX_cpd00052_e0" name="CTP export/import" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00052_e0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_cpd00052_transport" name="CTP transport" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00052_c0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_cpd00052_e0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="EX_cpd00002_e0" name="ATP export/import" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00002_e0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_cpd00002_transport" name="ATP transport" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00002_c0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_cpd00002_e0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="EX_cpd00062_e0" name="UTP export/import" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00062_e0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_cpd00062_transport" name="UTP transport" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00062_c0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_cpd00062_e0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="EX_cpd00356_e0" name="dCTP export/import" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00356_e0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_cpd00356_transport" name="dCTP transport" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00356_c0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_cpd00356_e0" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="EX_cpd00073_e0" name="Urea export/import" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00073_e0" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" name="mmol_per_gDW_per_hr" value="-1000"/>
+            <parameter id="UPPER_BOUND" name="mmol_per_gDW_per_hr" value="1000"/>
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0"/>
+            <parameter id="FLUX_VALUE" name="mmol_per_gDW_per_hr" value="0"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_cpd00073_transport" name="Urea transport" reversible="true">
+        <listOfReactants>
+          <speciesReference species="M_cpd00073_c0" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_cpd00073_e0" stoichiometry="1"/>
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
